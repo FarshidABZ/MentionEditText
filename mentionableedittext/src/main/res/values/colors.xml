@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="divider">#eeeeee</color>
+
+    <color name="center">#fafafa</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="cardBack">#f4f9ff</color>
+</resources>
