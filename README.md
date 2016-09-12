@@ -5,10 +5,10 @@
 
 ### 1. Add MentionableEditText in your XML:
 ```xml
-    <com.farshid.mentionableedittext.view.MentionableEditText
-      android:id="@+id/editText"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+<com.farshid.mentionableedittext.view.MentionableEditText
+    android:id="@+id/editText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
 ```
 
 ### 2. Bind it and set input list in your view:
