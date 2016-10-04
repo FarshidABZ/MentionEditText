@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 
+import com.farshid.mentionableedittext.model.MentionModel;
 import com.farshid.mentionableedittext.tokenization.Tokenizer;
 import com.farshid.mentionableedittext.view.MainView;
 
@@ -19,7 +20,7 @@ import com.farshid.mentionableedittext.view.MainView;
  * @since 9/9/2016
  */
 public class CustomEditText extends EditText implements TextWatcher {
-    ArrayList<String> inputList;
+    ArrayList<MentionModel> inputList;
     Tokenizer tokenizer;
 
     public int currentCursorPosition;
@@ -43,7 +44,7 @@ public class CustomEditText extends EditText implements TextWatcher {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void setInputList(ArrayList<String> inputList) {
+    public void setInputList(ArrayList<MentionModel> inputList) {
         this.inputList = inputList;
     }
 

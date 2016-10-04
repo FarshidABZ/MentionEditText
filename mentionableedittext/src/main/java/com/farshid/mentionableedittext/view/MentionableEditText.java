@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -12,13 +13,17 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ListPopupWindow;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.farshid.mentionableedittext.R;
 
 import java.util.ArrayList;
 
+import com.farshid.mentionableedittext.model.MentionModel;
 import com.farshid.mentionableedittext.suggestion.RecyclerAdapter;
 import com.farshid.mentionableedittext.view.widget.CustomEditText;
 
@@ -27,12 +32,15 @@ import com.farshid.mentionableedittext.view.widget.CustomEditText;
  * @version 1.0
  * @since 9/9/2016
  */
-public class MentionableEditText extends LinearLayout implements MainView, OnRecyclerViewClickListener {
-    private ArrayList<String> inputList;
+public class MentionableEditText extends FrameLayout implements MainView, OnRecyclerViewClickListener {
     private CustomEditText customEditText;
-    private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
     private MainView mainView;
+    private ListPopupWindow listPopupWindow;
+    private RecyclerView recyclerView;
+
+    boolean isPopUpWindowShowing = false;
+    private PopupWindow popupWindow;
 
     public MentionableEditText(Context context) {
         super(context);
@@ -61,8 +69,7 @@ public class MentionableEditText extends LinearLayout implements MainView, OnRec
         layoutInflater.inflate(R.layout.mentionabl_edit_text, this);
 
         customEditText = (CustomEditText) findViewById(R.id.met);
-        recyclerView = (RecyclerView) findViewById(R.id.rvSuggestionList);
-
+        recyclerView = new RecyclerView(context);
         recyclerAdapter = new RecyclerAdapter();
         recyclerAdapter.setOnClickListener(this);
 
@@ -70,41 +77,85 @@ public class MentionableEditText extends LinearLayout implements MainView, OnRec
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 
-    public void setInputList(ArrayList<String> inputList) {
-        this.inputList = inputList;
+    public void setInputList(ArrayList<MentionModel> inputList) {
         customEditText.setInputList(inputList);
         customEditText.setMainView(this);
     }
 
     @Override
-    public void setSuggestionList(ArrayList<String> suggestionList) {
-        if (suggestionList.size() <= 0) {
-            recyclerAdapter.removeAll();
-        } else {
-            recyclerAdapter.setInputAdapter(suggestionList);
-            recyclerAdapter.notifyDataSetChanged();
+    public void setSuggestionList(final ArrayList<MentionModel> suggestionList) {
+        if (suggestionList.size() < 0)
+            return;
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                if (popupWindow == null) {
+                    initPopupWindow();
+                }
+
+                if (suggestionList.size() <= 0) {
+                    recyclerAdapter.removeAll();
+                } else {
+                    recyclerAdapter.setInputAdapter(suggestionList);
+                    recyclerAdapter.notifyDataSetChanged();
+                }
+
+                popupWindow.setContentView(recyclerView);
+
+                showPopupWindow();
+            }
+        });
+    }
+
+    private void initPopupWindow() {
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        popupWindow = new PopupWindow(inflater.inflate(R.layout.content_suggestion_list, null),
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setFocusable(false);
+    }
+
+    private void showPopupWindow() {
+        if (!isPopUpWindowShowing) {
+            popupWindow.dismiss();
+            popupWindow.showAsDropDown(customEditText);
+            isPopUpWindowShowing = true;
         }
     }
 
     @Override
-    public void onItemClickListener(String text) {
-        String textBeforeCursorPosition = "";
-        String textAfterCursorPosition = "";
+    public void removeSuggestionList() {
+        dismissPopupWindow();
+    }
 
+    @Override
+    public void onItemClickListener(String text) {
         String currentText = customEditText.getText().toString();
 
-        for (int i = customEditText.currentCursorPosition - 1 - customEditText.getCurrentWord().length();
-             i >= 0; i--) {
-            textBeforeCursorPosition += currentText.charAt(i);
-        }
+        String textBeforeCursorPosition = getTextsBeforCursorPosition(currentText);
+        String textAfterCursorPosition = getTextAfterCursorPosition(currentText);
 
-        for (int i = customEditText.currentCursorPosition + 1; i < currentText.length(); i++) {
-            textAfterCursorPosition += currentText.charAt(i);
-        }
+        String finalText = createBlueTextWithMentionSignToShowAsMention(text, textBeforeCursorPosition, textAfterCursorPosition);
+
+        customEditText.setText(Html.fromHtml(finalText));
+        recyclerAdapter.removeAll();
+
+        // set editText cursor position to the end of text
+        customEditText.setSelection(customEditText.getText().length());
+
+        dismissPopupWindow();
+    }
+
+    private String createBlueTextWithMentionSignToShowAsMention(String text,
+                                                              String textBeforeCursorPosition,
+                                                              String textAfterCursorPosition) {
 
         text = new StringBuilder(text).insert(0, '@').toString();
 
-        String finalText = (new StringBuilder(textBeforeCursorPosition).reverse() + " " + text + " " + textAfterCursorPosition).substring(0);
+        String finalText = (new StringBuilder(textBeforeCursorPosition).reverse() + " " + text + " " + textAfterCursorPosition);
 
         customEditText.setText(finalText, TextView.BufferType.SPANNABLE);
 
@@ -119,9 +170,38 @@ public class MentionableEditText extends LinearLayout implements MainView, OnRec
 
         finalText = finalText.replaceAll(mentionRegex, "<font color='#0000ff'>" + "$0" + "</font>");
 
-        customEditText.setText(Html.fromHtml(finalText));
-        recyclerAdapter.removeAll();
+        return finalText;
+    }
 
-        customEditText.setSelection(customEditText.getText().length());
+    private String getTextsBeforCursorPosition(String currentText)
+    {
+        String textBeforeCursorPosition = "";
+
+        for (int i = customEditText.currentCursorPosition - 1 - customEditText.getCurrentWord().length();
+             i >= 0; i--) {
+            textBeforeCursorPosition += currentText.charAt(i);
+        }
+
+        return textBeforeCursorPosition;
+    }
+
+    private String getTextAfterCursorPosition(String currentText)
+    {
+        String textAfterCursorPosition = "";
+
+        for (int i = customEditText.currentCursorPosition + 1; i < currentText.length(); i++) {
+            textAfterCursorPosition += currentText.charAt(i);
+        }
+
+        return textAfterCursorPosition;
+    }
+
+    private void dismissPopupWindow()
+    {
+        if(popupWindow == null)
+            return;
+        recyclerAdapter.removeAll();
+        popupWindow.dismiss();
+        isPopUpWindowShowing = false;
     }
 }

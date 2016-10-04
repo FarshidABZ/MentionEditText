@@ -6,11 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.farshid.mentionableedittext.R;
 
 import java.util.ArrayList;
 
+import com.farshid.mentionableedittext.model.MentionModel;
 import com.farshid.mentionableedittext.view.OnRecyclerViewClickListener;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * @author FarshidAbz
@@ -18,13 +22,13 @@ import com.farshid.mentionableedittext.view.OnRecyclerViewClickListener;
  * @since 9/9/2016
  */
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<String> inputList;
+    private ArrayList<MentionModel> inputList;
     private OnRecyclerViewClickListener onRecyclerViewClickListener;
 
     public RecyclerAdapter() {
     }
 
-    public void setInputAdapter(ArrayList<String> inputList) {
+    public void setInputAdapter(ArrayList<MentionModel> inputList) {
         this.inputList = inputList;
     }
 
@@ -32,9 +36,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.onRecyclerViewClickListener = onRecyclerViewClickListener;
     }
 
-    public void removeAll()
-    {
-        if(inputList == null)
+    public void removeAll() {
+        if (inputList == null)
             return;
 
         inputList.clear();
@@ -52,7 +55,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.textView.setText(inputList.get(position));
+        viewHolder.textView.setText(inputList.get(position).getName());
+        if (inputList.get(position).getAvatarUrl() != null) {
+            Glide.with(viewHolder.itemView.getContext())
+                    .load(inputList.get(position).getAvatarUrl())
+                    .into(viewHolder.imgAvatar);
+        }
     }
 
     @Override
@@ -64,11 +72,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textView;
+        CircleImageView imgAvatar;
+
         OnRecyclerViewClickListener onRecyclerViewClickListener;
 
         public ViewHolder(View itemView, OnRecyclerViewClickListener onRecyclerViewClickListener) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.tvWord);
+            textView = (TextView) itemView.findViewById(R.id.tvSuggestionWord);
+            imgAvatar = (CircleImageView) itemView.findViewById(R.id.imgAvatar);
 
             this.onRecyclerViewClickListener = onRecyclerViewClickListener;
             itemView.setOnClickListener(this);
@@ -77,7 +88,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Override
         public void onClick(View view) {
             if (onRecyclerViewClickListener != null) {
-                onRecyclerViewClickListener.onItemClickListener(inputList.get(getLayoutPosition()));
+                onRecyclerViewClickListener.onItemClickListener(inputList.get(getLayoutPosition()).getName());
             }
         }
     }

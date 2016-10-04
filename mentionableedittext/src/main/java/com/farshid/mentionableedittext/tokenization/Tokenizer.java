@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.farshid.mentionableedittext.model.MentionModel;
 import com.farshid.mentionableedittext.suggestion.SuggestionListBuilder;
 import com.farshid.mentionableedittext.view.MainView;
 
@@ -29,7 +30,7 @@ public class Tokenizer {
      *
      * @param inputList the input list
      */
-    public Tokenizer(ArrayList<String> inputList, MainView mainView) {
+    public Tokenizer(ArrayList<MentionModel> inputList, MainView mainView) {
         tokens = new ArrayList<>();
         mentionableWords = new ArrayList<>();
         suggestionListBuilder = new SuggestionListBuilder(inputList, mainView);
