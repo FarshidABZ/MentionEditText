@@ -13,7 +13,7 @@
 
 ### 2. Bind it and set input list in your view:
 ```java
-ArrayList<String> inputList = new ArrayList<>();
+ArrayList<MentionModel> inputList = new ArrayList<>();
 inputList.addAll(your_data);
 mentionableEditText = (MentionableEditText) findViewById(R.id.editText);
 mentionableEditText.setInputList(inputList);
