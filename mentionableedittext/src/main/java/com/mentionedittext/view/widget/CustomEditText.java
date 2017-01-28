@@ -1,4 +1,4 @@
-package com.farshid.mentionableedittext.view.widget;
+package com.mentionedittext.view.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -8,18 +8,18 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-import java.util.ArrayList;
+import com.mentionedittext.model.MentionModel;
+import com.mentionedittext.tokenization.Tokenizer;
+import com.mentionedittext.view.MainView;
 
-import com.farshid.mentionableedittext.model.MentionModel;
-import com.farshid.mentionableedittext.tokenization.Tokenizer;
-import com.farshid.mentionableedittext.view.MainView;
+import java.util.ArrayList;
 
 /**
  * @author FarshidAbz
  * @version 1.0
  * @since 9/9/2016
  */
-public class CustomEditText extends EditText implements TextWatcher {
+class CustomEditText extends EditText implements TextWatcher {
     ArrayList<MentionModel> inputList;
     Tokenizer tokenizer;
 

@@ -1,14 +1,14 @@
-package com.farshid.mentionableedittext.tokenization;
+package com.mentionedittext.tokenization;
+
+import com.mentionedittext.model.MentionModel;
+import com.mentionedittext.suggestion.SuggestionListBuilder;
+import com.mentionedittext.view.MainView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.farshid.mentionableedittext.model.MentionModel;
-import com.farshid.mentionableedittext.suggestion.SuggestionListBuilder;
-import com.farshid.mentionableedittext.view.MainView;
 
 /**
  * The type Tokenizer.

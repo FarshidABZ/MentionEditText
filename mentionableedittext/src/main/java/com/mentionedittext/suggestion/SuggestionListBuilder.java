@@ -1,11 +1,11 @@
-package com.farshid.mentionableedittext.suggestion;
+package com.mentionedittext.suggestion;
+
+import com.mentionedittext.model.MentionModel;
+import com.mentionedittext.view.MainView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.farshid.mentionableedittext.model.MentionModel;
-import com.farshid.mentionableedittext.view.MainView;
 
 /**
  * @author FarshidAbz

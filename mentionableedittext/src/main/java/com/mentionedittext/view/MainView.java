@@ -1,6 +1,6 @@
-package com.farshid.mentionableedittext.view;
+package com.mentionedittext.view;
 
-import com.farshid.mentionableedittext.model.MentionModel;
+import com.mentionedittext.model.MentionModel;
 
 import java.util.ArrayList;
 

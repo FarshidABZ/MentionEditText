@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MentionableEditText.iml" filepath="$PROJECT_DIR$/MentionableEditText.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MentionEditText.iml" filepath="$PROJECT_DIR$/MentionEditText.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/mentionableedittext/mentionableedittext.iml" filepath="$PROJECT_DIR$/mentionableedittext/mentionableedittext.iml" />
     </modules>

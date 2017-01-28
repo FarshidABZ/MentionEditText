@@ -1,4 +1,4 @@
-package com.farshid.mentionableedittext.model;
+package com.mentionedittext.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

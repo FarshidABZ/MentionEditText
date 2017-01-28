@@ -1,5 +1,4 @@
-package com.farshid.mentionableedittext.suggestion;
-
+package com.mentionedittext.suggestion;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +7,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.farshid.mentionableedittext.R;
+import com.mentionedittext.model.MentionModel;
+import com.mentionedittext.view.OnRecyclerViewClickListener;
 
 import java.util.ArrayList;
-
-import com.farshid.mentionableedittext.model.MentionModel;
-import com.farshid.mentionableedittext.view.OnRecyclerViewClickListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

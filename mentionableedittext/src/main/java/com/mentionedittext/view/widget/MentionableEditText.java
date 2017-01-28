@@ -1,4 +1,4 @@
-package com.farshid.mentionableedittext.view;
+package com.mentionedittext.view.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -10,22 +10,25 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.farshid.mentionableedittext.R;
+import com.mentionedittext.model.MentionModel;
+import com.mentionedittext.suggestion.RecyclerAdapter;
+import com.mentionedittext.view.MainView;
+import com.mentionedittext.view.OnRecyclerViewClickListener;
 
 import java.util.ArrayList;
-
-import com.farshid.mentionableedittext.model.MentionModel;
-import com.farshid.mentionableedittext.suggestion.RecyclerAdapter;
-import com.farshid.mentionableedittext.view.widget.CustomEditText;
 
 /**
  * @author FarshidAbz
@@ -170,6 +173,13 @@ public class MentionableEditText extends FrameLayout implements MainView, OnRecy
 
         finalText = finalText.replaceAll(mentionRegex, "<font color='#0000ff'>" + "$0" + "</font>");
 
+        final String finalText1 = finalText;
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), finalText1, Toast.LENGTH_SHORT);
+            }
+        };
         return finalText;
     }
 

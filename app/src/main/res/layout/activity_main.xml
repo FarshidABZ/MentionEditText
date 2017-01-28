@@ -11,14 +11,13 @@
     tools:context="com.farshid.app.MainActivity"
     android:orientation="vertical">
 
-    <com.farshid.mentionableedittext.view.MentionableEditText
+    <com.mentionedittext.view.widget.MentionableEditText
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:layout_width="wrap_content"
-        android:onClick="asghar"
         android:layout_height="wrap_content"
         android:text="farshid"
         android:layout_marginTop="22dp" />

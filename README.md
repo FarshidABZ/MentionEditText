@@ -5,7 +5,7 @@
 
 ### 1. Add MentionableEditText in your XML:
 ```xml
-<com.farshid.mentionableedittext.view.MentionableEditText
+<com.mentionedittext.view.widget.MentionableEditText
     android:id="@+id/editText"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>

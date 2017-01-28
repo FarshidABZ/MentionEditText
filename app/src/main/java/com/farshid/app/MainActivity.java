@@ -2,16 +2,12 @@ package com.farshid.app;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListPopupWindow;
 
-import com.farshid.mentionableedittext.model.MentionModel;
-import com.farshid.mentionableedittext.view.MentionableEditText;
+import com.mentionedittext.model.MentionModel;
+import com.mentionedittext.view.widget.MentionableEditText;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     MentionableEditText mentionableEditText;

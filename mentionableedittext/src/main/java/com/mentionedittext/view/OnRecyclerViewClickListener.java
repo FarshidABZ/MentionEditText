@@ -1,4 +1,4 @@
-package com.farshid.mentionableedittext.view;
+package com.mentionedittext.view;
 
 /**
  * @author FarshidAbz
